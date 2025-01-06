@@ -12,6 +12,8 @@ val appMainClass = "co.statu.parsek.Main"
 val pf4jVersion: String by project
 val pluginsDir: File? by rootProject.extra
 
+val defaultVersion = "0.0.0-local-build"
+
 plugins {
     kotlin("jvm") version "2.0.21"
     kotlin("kapt") version "2.0.21"
@@ -22,7 +24,7 @@ plugins {
 }
 
 group = "dev.parsek"
-version = project.findProperty("version") ?: "local-build"
+version = project.findProperty("version") ?: defaultVersion
 
 val buildType = project.findProperty("buildType") as String? ?: "alpha"
 val timeStamp: String by project
@@ -139,7 +141,7 @@ tasks {
 
 tasks.named<JavaExec>("run") {
     environment("EnvironmentType", "DEVELOPMENT")
-    environment("ParsekVersion", version)
+    environment("ParsekVersion", if (version == "unspecified") defaultVersion else version)
     environment("ParsekBuildType", buildType)
     pluginsDir?.let { systemProperty("pf4j.pluginsDir", it.absolutePath) }
 }

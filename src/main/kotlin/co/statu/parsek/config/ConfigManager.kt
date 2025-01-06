@@ -8,7 +8,7 @@ import io.vertx.config.ConfigRetrieverOptions
 import io.vertx.config.ConfigStoreOptions
 import io.vertx.core.Vertx
 import io.vertx.core.json.JsonObject
-import io.vertx.kotlin.coroutines.await
+import io.vertx.kotlin.coroutines.coAwait
 import org.slf4j.Logger
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
@@ -25,31 +25,29 @@ class ConfigManager(
     private val logger: Logger,
     applicationContext: AnnotationConfigApplicationContext
 ) {
-
     companion object {
-        private const val CONFIG_VERSION = 2
-
-        private val DEFAULT_CONFIG by lazy {
-            JsonObject(
-                mapOf(
-                    "config-version" to CONFIG_VERSION,
-                    "plugins" to JsonObject(),
-                    "router" to mapOf(
-                        "api-prefix" to "/api"
-                    ),
-                    "server" to mapOf(
-                        "host" to "0.0.0.0",
-                        "port" to 8088
-                    )
-                )
-            )
-        }
-
         fun JsonObject.putAll(jsonObject: Map<String, Any>) {
             jsonObject.forEach {
                 this.put(it.key, it.value)
             }
         }
+    }
+
+    private fun getDefaultConfig(): JsonObject {
+        val latestVersion = migrations.maxByOrNull { it.to }?.to ?: 1
+
+        return JsonObject(
+            mapOf(
+                "config-version" to latestVersion,
+                "router" to mapOf(
+                    "api-prefix" to "/api"
+                ),
+                "server" to mapOf(
+                    "host" to "0.0.0.0",
+                    "port" to 8088
+                )
+            )
+        )
     }
 
     fun saveConfig(config: JsonObject = this.config) {
@@ -72,19 +70,21 @@ class ConfigManager(
     fun getConfig() = config
 
     internal suspend fun init() {
+        val defaultConfig = getDefaultConfig()
+
         if (!configFile.exists()) {
-            saveConfig(DEFAULT_CONFIG)
+            saveConfig(defaultConfig)
         }
 
         val configValues: Map<String, Any>
 
         try {
-            configValues = configRetriever.config.await().map
+            configValues = configRetriever.config.coAwait().map
         } catch (e: Exception) {
             logger.error("Error occurred while loading config file! Error: $e")
             logger.info("Using default config!")
 
-            config.putAll(DEFAULT_CONFIG.map)
+            config.putAll(defaultConfig.map)
 
             return
         }

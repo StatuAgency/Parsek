@@ -23,6 +23,12 @@ class PluginManager(importPaths: List<Path>) : DefaultPluginManager(importPaths)
         }
     }
 
+    override fun createPluginRepository(): PluginRepository {
+        return CompoundPluginRepository()
+            .add(DevelopmentPluginRepository(getPluginsRoots())) { this.isDevelopment }
+            .add(JarPluginRepository(getPluginsRoots())) { this.isNotDevelopment }
+    }
+
     override fun createPluginDescriptorFinder(): CompoundPluginDescriptorFinder {
         return CompoundPluginDescriptorFinder()
             .add(ParsekManifestPluginDescriptorFinder())

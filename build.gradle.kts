@@ -127,7 +127,7 @@ tasks {
             attributes(attrMap)
         }
 
-        if (version != "Unspecified") {
+        if (version != "unspecified") {
             archiveFileName.set("${rootProject.name}-v${version}.jar")
         } else {
             archiveFileName.set("${rootProject.name}.jar")

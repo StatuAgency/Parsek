@@ -12,3 +12,5 @@ config.conf
 .docker
 
 file-uploads
+
+plugins

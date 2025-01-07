@@ -3,13 +3,11 @@ package co.statu.parsek.api.config
 import io.vertx.core.json.JsonObject
 
 abstract class PluginConfigMigration {
-    abstract val FROM_VERSION: Int
-    abstract val VERSION: Int
-    abstract val VERSION_INFO: String
+    abstract val from: Int
+    abstract val to: Int
+    abstract val versionInfo: String
 
-    fun isMigratable(version: Int) = version == FROM_VERSION
+    fun isMigratable(version: Int) = version == from
 
     abstract fun migrate(config: JsonObject)
-
-    open fun migrateFully(config: JsonObject) {}
 }

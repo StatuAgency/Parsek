@@ -38,15 +38,11 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("reflect"))
-
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.3")
     testImplementation("io.vertx:vertx-unit:$vertxVersion")
 
     implementation("io.vertx:vertx-web:$vertxVersion")
-    implementation("io.vertx:vertx-web-client:$vertxVersion")
     implementation("io.vertx:vertx-lang-kotlin:$vertxVersion")
     implementation("io.vertx:vertx-config:$vertxVersion")
     implementation("io.vertx:vertx-config-hocon:$vertxVersion")
@@ -58,33 +54,16 @@ dependencies {
     implementation(group = "org.apache.logging.log4j", name = "log4j-core", version = log4jVersion)
     implementation(group = "org.apache.logging.log4j", name = "log4j-slf4j2-impl", version = log4jVersion)
 
-    // https://mvnrepository.com/artifact/commons-codec/commons-codec
-    implementation(group = "commons-codec", name = "commons-codec", version = "1.17.1")
-
     // https://mvnrepository.com/artifact/org.springframework/spring-context
     implementation("org.springframework:spring-context:$springContextVersion")
 
     implementation("org.pf4j:pf4j:${pf4jVersion}")
 
-    implementation("org.apache.commons:commons-lang3:3.17.0")
-
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-text
-    implementation("org.apache.commons:commons-text:1.12.0")
-
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.1")
-
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:$gsonVersion")
 
-    // https://mvnrepository.com/artifact/org.ow2.asm/asm
-    implementation("org.ow2.asm:asm:9.7.1")
-
     // https://mvnrepository.com/artifact/com.github.jknack/handlebars
     implementation("com.github.jknack:handlebars:$handlebarsVersion")
-
-    // https://mvnrepository.com/artifact/commons-validator/commons-validator
-    implementation("commons-validator:commons-validator:1.9.0")
 
     // https://mvnrepository.com/artifact/com.jcabi/jcabi-manifests
     implementation("com.jcabi:jcabi-manifests:2.1.0")

@@ -29,7 +29,8 @@ abstract class ParsekPlugin : Plugin() {
     lateinit var pluginGlobalBeanContext: AnnotationConfigApplicationContext
         internal set
 
-    internal lateinit var applicationContext: AnnotationConfigApplicationContext
+    lateinit var applicationContext: AnnotationConfigApplicationContext
+        internal set
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
